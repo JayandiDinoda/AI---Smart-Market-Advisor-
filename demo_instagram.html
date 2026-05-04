@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Billabong&family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/instagram.css">
+</head>
+<body>
+<!-- Custom Cursor (pointer-events:none so clicks pass through) -->
+<div id="cursorDot"></div>
+<div id="cursorRing"></div>
+
+
+<!-- ── Parallax ambient background ──────────────────────────── -->
+<div class="parallax-bg" id="parallaxBg"></div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  LEFT SIDEBAR NAV                                         -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<nav class="sidebar-nav">
+
+  <div class="nav-logo" onclick="navigate('home')">
+    <span class="nav-logo-text">Instagram</span>
+    <!-- icon shown when sidebar collapses -->
+    <svg class="nav-logo-icon" xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 24 24" width="30" height="30" fill="white">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691
+               4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012
+               3.584-.069 4.849-.149 3.225-1.664 4.771-4.919
+               4.919-1.266.058-1.644.07-4.85.07-3.204
+               0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849
+               0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771
+               4.919-4.919 1.266-.057 1.645-.069
+               4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78
+               2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014
+               3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072
+               4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618
+               6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0
+               5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162
+               6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0
+               10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4
+               4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796
+               0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0
+               1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+  </div>
+
+  <button class="nav-item active" id="nav-home" onclick="navigate('home')">
+    <span class="nav-icon"></span>
+    <span class="nav-label">Home</span>
+  </button>
+  <button class="nav-item" id="nav-explore" onclick="navigate('explore')">
+    <span class="nav-icon"></span>
+    <span class="nav-label">Explore</span>
+  </button>
+  <button class="nav-item" id="nav-reels" onclick="navigate('reels')">
+    <span class="nav-icon"></span>
+    <span class="nav-label">Reels</span>
+  </button>
+  <button class="nav-item" id="nav-notifications" onclick="navigate('notifications')">
+    <span class="nav-icon"></span>
+    <span class="nav-label">Notifications</span>
+    <span class="nav-notif-badge" id="notifNavDot"></span>
+  </button>
+  <button class="nav-item" id="nav-profile" onclick="navigate('profile')">
+    <span class="nav-icon"></span>
+    <span class="nav-label">Profile</span>
+  </button>
+
+  <div class="nav-spacer"></div>
+
+  <div class="nav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="4"  x2="21" y2="4"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="20" x2="21" y2="20"/>
+    </svg>
+    <span class="nav-label">More</span>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  MAIN CONTENT                                             -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="main-content">
+
+  <!-- New-post toast -->
+  <div class="new-post-toast" id="newPostToast"
+       onclick="navigate('home');scrollToTop()">
+    ↑ New post from AI Market Advisor
+  </div>
+
+  <!-- ─────────────────── HOME ─────────────────────────────── -->
+  <div class="page active" id="page-home">
+
+    <!-- ── HERO SECTION ──────────────────────────────────────── -->
+    <div class="hero-section" id="heroSection">
+      <div class="hero-bg-orbs">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+      </div>
+
+      <!-- Floating 3D icons -->
+      <div class="hero-float-icons">
+        <div class="float-icon fi-1">🛍️</div>
+        <div class="float-icon fi-2">📊</div>
+        <div class="float-icon fi-3">🚀</div>
+        <div class="float-icon fi-4">💡</div>
+        <div class="float-icon fi-5">✨</div>
+        <div class="float-icon fi-6">🎯</div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          AI-Powered Marketing
+        </div>
+        <h1 class="hero-title">
+          Your Brand,<br>
+          <span class="hero-gradient-text">Amplified</span>
+        </h1>
+        <p class="hero-tagline">
+          Watch your AI-generated ads appear here in real‑time.<br>
+          Like · Comment · Share — just like the real thing.
+        </p>
+        <div class="hero-actions">
+          <button class="hero-cta-btn" onclick="document.getElementById('feed').scrollIntoView({behavior:'smooth'})">
+            <span>View Feed</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                 width="16" height="16">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+          <button class="hero-secondary-btn" onclick="navigate('explore')">Explore</button>
+        </div>
+        <!-- Scroll indicator -->
+        <div class="hero-scroll-hint">
+          <div class="hero-scroll-mouse">
+            <div class="hero-scroll-wheel"></div>
+          </div>
+          <span>Scroll down</span>
+        </div>
+      </div>
+    </div>
+    <!-- ── END HERO ───────────────────────────────────────────── -->
+
+    <div class="feed-layout">
+      <div>
+        <!-- Stories -->
+        <div class="stories-wrap scroll-reveal">
+          <div class="stories-row">
+            <div class="story-item" onclick="openStory(0)">
+              <div class="story-ring seen"><div class="story-avatar">➕</div></div>
+              <div class="story-name">Your Story</div>
+            </div>
+            <div class="story-item" onclick="openStory(1)">
+              <div class="story-ring"><div class="story-avatar">🛍️</div></div>
+              <div class="story-name">ai_market</div>
+            </div>
+            <div class="story-item" onclick="openStory(2)">
+              <div class="story-ring seen"><div class="story-avatar">📦</div></div>
+              <div class="story-name">shop_demo</div>
+            </div>
+            <div class="story-item" onclick="openStory(3)">
+              <div class="story-ring"><div class="story-avatar">🎯</div></div>
+              <div class="story-name">marketing</div>
+            </div>
+            <div class="story-item" onclick="openStory(4)">
+              <div class="story-ring"><div class="story-avatar">💡</div></div>
+              <div class="story-name">strategy</div>
+            </div>
+            <div class="story-item" onclick="openStory(5)">
+              <div class="story-ring seen"><div class="story-avatar">🌟</div></div>
+              <div class="story-name">trending</div>
+            </div>
+            <div class="story-item" onclick="openStory(6)">
+              <div class="story-ring"><div class="story-avatar">🎨</div></div>
+              <div class="story-name">creative</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feed -->
+        <div id="feed"></div>
+      </div>
+
+      <!-- Right sidebar -->
+      <aside class="feed-sidebar">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar">
+            <div class="sidebar-user-avatar-inner">🤖</div>
+          </div>
+          <div>
+            <div class="sidebar-uname">ai_market_advisor</div>
+            <div class="sidebar-fullname">AI Market Advisor</div>
+          </div>
+          <span class="sidebar-switch">Switch</span>
+        </div>
+
+        <div class="sugg-header">
+          <span>Suggestions For You</span>
+          <span>See All</span>
+        </div>
+
+        <div class="sugg-item">
+          <div class="sugg-avatar" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)">S</div>
+          <div class="sugg-info">
+            <div class="sugg-uname">shop_digital</div>
+            <div class="sugg-sub">Suggested for you</div>
+          </div>
+          <span class="sugg-follow" onclick="followUser(this)">Follow</span>
+        </div>
+        <div class="sugg-item">
+          <div class="sugg-avatar" style="background:linear-gradient(135deg,#0095f6,#1877f2)">M</div>
+          <div class="sugg-info">
+            <div class="sugg-uname">market_trends</div>
+            <div class="sugg-sub">Followed by ai_market</div>
+          </div>
+          <span class="sugg-follow" onclick="followUser(this)">Follow</span>
+        </div>
+        <div class="sugg-item">
+          <div class="sugg-avatar" style="background:linear-gradient(135deg,#00b09b,#96c93d)">B</div>
+          <div class="sugg-info">
+            <div class="sugg-uname">brand_studio</div>
+            <div class="sugg-sub">Suggested for you</div>
+          </div>
+          <span class="sugg-follow" onclick="followUser(this)">Follow</span>
+        </div>
+        <div class="sugg-item">
+          <div class="sugg-avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)">C</div>
+          <div class="sugg-info">
+            <div class="sugg-uname">creative_ads</div>
+            <div class="sugg-sub">Suggested for you</div>
+          </div>
+          <span class="sugg-follow" onclick="followUser(this)">Follow</span>
+        </div>
+        <div class="sugg-item">
+          <div class="sugg-avatar" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">D</div>
+          <div class="sugg-info">
+            <div class="sugg-uname">digital_growth</div>
+            <div class="sugg-sub">Suggested for you</div>
+          </div>
+          <span class="sugg-follow" onclick="followUser(this)">Follow</span>
+        </div>
+
+        <div class="footer-links">
+          <a href="#">About</a> · <a href="#">Help</a> · <a href="#">Press</a> ·
+          <a href="#">API</a> · <a href="#">Privacy</a> · <a href="#">Terms</a>
+          <div style="margin-top:8px">© 2025 DEMO INSTAGRAM</div>
+        </div>
+      </aside>
+    </div>
+  </div><!-- end page-home -->
+
+  <!-- ─────────────────── EXPLORE ──────────────────────────── -->
+  <div class="page" id="page-explore">
+    <div class="explore-wrap">
+      <div class="explore-search-bar scroll-reveal">
+        <span class="explore-search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="10.5" cy="10.5" r="7.5"/>
+            <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+          </svg>
+        </span>
+        <input type="text" placeholder="Search">
+      </div>
+      <div class="explore-grid" id="explore-grid"></div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── REELS ────────────────────────────── -->
+  <div class="page" id="page-reels">
+    <div class="reels-wrap">
+      <div class="reels-title scroll-reveal">Reels</div>
+      <div class="reels-grid" id="reels-grid"></div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── NOTIFICATIONS ───────────────────── -->
+  <div class="page" id="page-notifications">
+    <div class="notifs-wrap">
+      <div class="notifs-title scroll-reveal">Notifications</div>
+      <div id="notifs-list"></div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── PROFILE ──────────────────────────── -->
+  <div class="page" id="page-profile">
+    <div class="profile-wrap">
+      <div class="profile-header scroll-reveal">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar">
+            <div class="profile-avatar-inner">🤖</div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-top">
+            <div class="profile-username">ai_market_advisor</div>
+            <button class="profile-edit-btn">Edit profile</button>
+            <button class="profile-settings-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0
+                         1-2.83 2.83l-.06-.06a1.65 1.65 0 0
+                         0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0
+                         1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0
+                         0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65
+                         1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2
+                         0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0
+                         0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65
+                         1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0
+                         0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0
+                         0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65
+                         1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2
+                         0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="profile-stats">
+            <div class="profile-stat">
+              <div class="profile-stat-num" id="profile-post-count">0</div>
+              <div class="profile-stat-label">posts</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-num">1,284</div>
+              <div class="profile-stat-label">followers</div>
+            </div>
+            <div class="profile-stat">
+              <div class="profile-stat-num">342</div>
+              <div class="profile-stat-label">following</div>
+            </div>
+          </div>
+          <div class="profile-name">AI Market Advisor</div>
+          <div class="profile-bio">
+            🤖 AI-powered marketing strategies<br>
+            📊 Smart ad generation · Sri Lanka 🇱🇰<br>
+            🚀 Growing brands with the power of AI
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-highlights scroll-reveal">
+        <div class="highlight-item" onclick="openStory(0)">
+          <div class="highlight-ring">➕</div>
+          <div class="highlight-name">New</div>
+        </div>
+        <div class="highlight-item" onclick="openStory(1)">
+          <div class="highlight-ring">🛍️</div>
+          <div class="highlight-name">Products</div>
+        </div>
+        <div class="highlight-item" onclick="openStory(2)">
+          <div class="highlight-ring">📊</div>
+          <div class="highlight-name">Stats</div>
+        </div>
+        <div class="highlight-item" onclick="openStory(3)">
+          <div class="highlight-ring">🎯</div>
+          <div class="highlight-name">Ads</div>
+        </div>
+        <div class="highlight-item" onclick="openStory(4)">
+          <div class="highlight-ring">💡</div>
+          <div class="highlight-name">Tips</div>
+        </div>
+      </div>
+
+      <div class="profile-tabs scroll-reveal">
+        <div class="profile-tab active">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="currentColor" width="14" height="14">
+            <rect height="9" rx="1" width="9" x="1.5"  y="1.5"/>
+            <rect height="9" rx="1" width="9" x="13.5" y="1.5"/>
+            <rect height="9" rx="1" width="9" x="1.5"  y="13.5"/>
+            <rect height="9" rx="1" width="9" x="13.5" y="13.5"/>
+          </svg>
+          POSTS
+        </div>
+        <div class="profile-tab">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+            <rect x="2" y="7" width="20" height="14" rx="2"/>
+            <path d="M16 2 8 7M8 2l8 5"/>
+          </svg>
+          REELS
+        </div>
+        <div class="profile-tab">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14">
+            <path d="M10.201 3.797 12 1.997l1.799 1.8a1.59 1.59 0 0 0 1.124.465h5.259A1.818
+                     1.818 0 0 1 22 6.08v14.104a1.818 1.818 0 0 1-1.818 1.818H3.818A1.818
+                     1.818 0 0 1 2 20.184V6.08a1.818 1.818 0 0 1 1.818-1.818h5.26a1.59
+                     1.59 0 0 0 1.123-.465Z"/>
+            <circle cx="10" cy="12" r="2.5"/>
+          </svg>
+          TAGGED
+        </div>
+      </div>
+      <div class="profile-grid" id="profile-grid"></div>
+    </div>
+  </div>
+
+</div><!-- end main-content -->
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  MODALS & OVERLAYS                                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<!-- Story Modal -->
+<div class="story-modal" id="storyModal">
+  <div class="story-modal-content">
+    <div class="story-progress">
+      <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+      <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+      <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+      <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+      <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+      <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+      <div class="story-progress-bar"><div class="story-progress-fill"></div></div>
+    </div>
+    <div class="story-header">
+      <div class="story-header-avatar">
+        <div class="story-header-avatar-inner">🤖</div>
+      </div>
+      <div>
+        <div class="story-header-name" id="storyName">ai_market</div>
+        <div class="story-header-time" id="storyTime">2h ago</div>
+      </div>
+      <button class="story-close" onclick="closeStory()">✕</button>
+    </div>
+    <div class="story-body" id="storyBody">🛍️</div>
+    <div class="story-nav-left"  onclick="prevStory()"></div>
+    <div class="story-nav-right" onclick="nextStory()"></div>
+  </div>
+</div>
+
+<!-- Image Zoom Modal -->
+<div class="img-zoom-modal" id="imgZoomModal">
+  <button class="img-zoom-close" onclick="closeZoom()">✕</button>
+  <img id="imgZoomImg" src="" alt="Zoomed">
+</div>
+
+<!-- Share Overlay + Popup -->
+<div class="share-overlay" id="shareOverlay" onclick="closeShare()"></div>
+<div class="share-popup" id="sharePopup">
+  <div class="share-handle"></div>
+  <div class="share-popup-title">Share</div>
+
+  <div class="share-options">
+    <div class="share-option" onclick="showCopiedToast('✓ Added to Story!');closeShare()">
+      <div class="share-option-icon" style="background:linear-gradient(135deg,#f09433,#bc1888)">📖</div>
+      <div class="share-option-label">Add to Story</div>
+    </div>
+    <div class="share-option" onclick="showCopiedToast('✓ Sent via Direct!');closeShare()">
+      <div class="share-option-icon" style="background:linear-gradient(135deg,#833ab4,#fd1d1d)">✈️</div>
+      <div class="share-option-label">Direct</div>
+    </div>
+    <div class="share-option" onclick="showCopiedToast('✓ Shared to Facebook!');closeShare()">
+      <div class="share-option-icon" style="background:#1877f2">👥</div>
+      <div class="share-option-label">Facebook</div>
+    </div>
+    <div class="share-option" onclick="showCopiedToast('✓ Shared to Twitter!');closeShare()">
+      <div class="share-option-icon" style="background:#111;border:1px solid #333">🐦</div>
+      <div class="share-option-label">Twitter</div>
+    </div>
+    <div class="share-option" onclick="showCopiedToast('✓ Shared to WhatsApp!');closeShare()">
+      <div class="share-option-icon" style="background:#25d366">💬</div>
+      <div class="share-option-label">WhatsApp</div>
+    </div>
+    <div class="share-option" onclick="showCopiedToast('✓ Shared to Telegram!');closeShare()">
+      <div class="share-option-icon" style="background:#0088cc">📩</div>
+      <div class="share-option-label">Telegram</div>
+    </div>
+    <div class="share-option" onclick="showCopiedToast('✓ Shared to LinkedIn!');closeShare()">
+      <div class="share-option-icon" style="background:#0077b5">💼</div>
+      <div class="share-option-label">LinkedIn</div>
+    </div>
+    <div class="share-option" onclick="copyShareLink()">
+      <div class="share-option-icon" style="background:#2a2a2a;border:1px solid #333">🔗</div>
+      <div class="share-option-label">Copy Link</div>
+    </div>
+  </div>
+
+  <div class="share-divider"></div>
+  <div class="share-link-box">
+    <input type="text" id="shareLinkInput" readonly>
+    <button class="share-copy-btn" onclick="copyShareLink()">Copy</button>
+  </div>
+  <button class="share-close" onclick="closeShare()">Cancel</button>
+</div>
+
+<!-- Toasts -->
+<div class="copied-toast" id="copiedToast">Done!</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  BOTTOM NAV (mobile)                                      -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="bottom-nav">
+  <div class="bottom-nav-item" onclick="navigate('home')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <path d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15
+               16.545V22h7V11.543L12 2 2 11.543V22h7.005Z"/>
+    </svg>
+  </div>
+  <div class="bottom-nav-item" onclick="navigate('explore')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="10.5" cy="10.5" r="7.5"/>
+      <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+    </svg>
+  </div>
+  <div class="bottom-nav-item" onclick="navigate('reels')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <rect x="2" y="7" width="20" height="14" rx="2"/>
+      <path d="M16 2 8 7M8 2l8 5"/>
+      <polygon points="9.5 11 9.5 17.5 15.5 14.25 9.5 11"/>
+    </svg>
+  </div>
+  <div class="bottom-nav-item" onclick="navigate('notifications')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.517-4.903
+               7.574-9.5 11.378-4.597-3.804-9.5-7.861-9.5-11.378
+               0-2.955 2.099-5.257 4.208-5.257a3.966 3.966 0 0 1
+               2.765 1.02L12 7.116l2.527-3.253a3.966 3.966 0 0 1 2.265-.96Z"/>
+    </svg>
+  </div>
+  <div class="bottom-nav-item" onclick="navigate('profile')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M2 21c0-4.418 4.477-8 10-8s10 3.582 10 8" stroke-linecap="round"/>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  NEW FEATURE ELEMENTS                                     -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<!-- 2. Theme Toggle -->
+<div class="theme-toggle" id="themeToggle" title="Toggle theme">
+  <div class="theme-toggle-knob">🌙</div>
+</div>
+
+<!-- 7. Command Palette -->
+<div class="cmd-palette-overlay" id="cmdPalette" onclick="if(event.target===this)closeCmdPalette()">
+  <div class="cmd-palette">
+    <div class="cmd-search-row">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7.5"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      <input id="cmdInput" placeholder="Search anything..." autocomplete="off">
+      <span class="cmd-kbd" onclick="closeCmdPalette()">ESC</span>
+    </div>
+    <div class="cmd-results" id="cmdList"></div>
+    <div class="cmd-footer">
+      <span>&#8593;&#8595; Navigate</span>
+      <span>&#8629; Select</span>
+      <span>ESC Close</span>
+      <span style="margin-left:auto">&#8984;K</span>
+    </div>
+  </div>
+</div>
+
+<!-- Cmd K hint -->
+<div style="position:fixed;bottom:28px;left:calc(var(--nav-width)/2);transform:translateX(-50%);font-size:11px;color:var(--muted);white-space:nowrap;z-index:99;pointer-events:none" id="cmdHint">
+  Press <span style="background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-family:monospace">&#8984;K</span>
+</div>
+
+<!-- 8. Settings Side Panel -->
+<div class="side-panel-overlay" id="panelOverlay" onclick="closeSidePanel()"></div>
+<div class="side-panel" id="settingsPanel">
+  <div class="side-panel-head">
+    <div class="side-panel-title">Settings</div>
+    <button class="side-panel-close" onclick="closeSidePanel()">&#10005;</button>
+  </div>
+  <div class="side-panel-body">
+    <div class="settings-row">
+      <div><div class="settings-label">Dark Mode</div><div class="settings-sub">Switch between dark and light</div></div>
+      <div class="toggle-switch on" data-label="Dark mode" onclick="this.classList.toggle('on');document.getElementById('themeToggle').click()"><div class="toggle-switch-knob">🌙</div></div>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Notifications</div><div class="settings-sub">Post alerts and activity</div></div>
+      <div class="toggle-switch on" data-label="Notifications"><div class="toggle-switch-knob">🔔</div></div>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Auto-refresh Feed</div><div class="settings-sub">Poll for new posts every 5s</div></div>
+      <div class="toggle-switch on" data-label="Auto-refresh"><div class="toggle-switch-knob">🔄</div></div>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Particle Effects</div><div class="settings-sub">Hero background animation</div></div>
+      <div class="toggle-switch on" data-label="Particles"><div class="toggle-switch-knob">✨</div></div>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Sound Effects</div><div class="settings-sub">Like and notification sounds</div></div>
+      <div class="toggle-switch" data-label="Sound"><div class="toggle-switch-knob">🔇</div></div>
+    </div>
+    <div style="margin-top:28px;padding:16px;background:var(--glass);border:1px solid var(--border);border-radius:14px;">
+      <div style="font-size:13px;color:var(--text2);line-height:1.6">
+        <div style="font-weight:700;font-size:14px;color:var(--text);margin-bottom:8px">⌘ Keyboard Shortcuts</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Command Palette</span><code style="background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:11px">&#8984;K</code></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Close modal</span><code style="background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:11px">ESC</code></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Next story</span><code style="background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:11px">&#8594;</code></div>
+        <div style="display:flex;justify-content:space-between"><span>Prev story</span><code style="background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:11px">&#8592;</code></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 14. Toast Stack -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- 18. Floating Chat Bubble -->
+<button class="chat-bubble-btn" id="chatBubbleBtn" onclick="toggleChat()" data-tooltip="AI Assistant">
+  <div class="chat-bubble-pulse"></div>
+  💬
+</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-panel-head">
+    <div class="chat-panel-head-avatar">🤖</div>
+    <div class="chat-panel-head-info"><strong>AI Market Advisor</strong><span>● Online</span></div>
+  </div>
+  <div class="chat-panel-body" id="chatBody">
+    <div class="chat-msg">👋 Hi! I am your AI marketing assistant. Ask me anything about your campaigns!</div>
+  </div>
+  <div class="chat-panel-input">
+    <input id="chatMsgInput" placeholder="Ask something..." onkeydown="if(event.key==='Enter')sendChatMsg()">
+    <button class="chat-panel-send" onclick="sendChatMsg()">&#10148;</button>
+  </div>
+</div>
+
+<!-- SVG defs for gradient rings -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="igGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f09433"/>
+      <stop offset="50%" stop-color="#dc2743"/>
+      <stop offset="100%" stop-color="#bc1888"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<script src="/static/js/instagram.js"></script>
+</body>
+</html>
